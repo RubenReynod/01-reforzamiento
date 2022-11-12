@@ -2,7 +2,8 @@
 // import OnjetosLiterales from "./typescript/OnjetosLiterales"
 // import Funciones from "./typescript/Funciones"
 // import Contador from "./components/Contador"
-import ContadorConHook from "./components/ContadorConHook"
+// import ContadorConHook from "./components/ContadorConHook"
+import Login from './components/Login';
 
 
 const App = () => {
@@ -14,7 +15,8 @@ const App = () => {
       { /*<OnjetosLiterales />*/ }
       { /*<Funciones />*/ }
       { /*<Contador />*/ }
-      <ContadorConHook />
+      { /*<ContadorConHook />*/ }
+      <Login />
     </div>
   )
 }
