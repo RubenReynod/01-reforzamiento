@@ -1,4 +1,5 @@
-import TiposBasicos from "./typescript/TiposBasicos"
+// import TiposBasicos from "./typescript/TiposBasicos"
+import OnjetosLiterales from "./typescript/OnjetosLiterales"
 
 
 const App = () => {
@@ -6,7 +7,8 @@ const App = () => {
     <div className='mt-2'>
       <h1>Introducción a TS con React</h1>
       <hr />
-      <TiposBasicos />
+      { /*<TiposBasicos />*/ }
+      <OnjetosLiterales />
     </div>
   )
 }
