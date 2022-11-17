@@ -14,7 +14,14 @@ const initialState: AuthState = {
   nombre: ''
 }
 
-type AuthAction = { type: 'logout'}
+type LoginPayload = {
+  username: string
+  nombre: string
+}
+
+type AuthAction = 
+  { type: 'logout'}
+  | { type: 'login', payload: LoginPayload }
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState  => {
   switch(action.type) {
@@ -26,19 +33,42 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState  => {
         nombre: '',
         username: ''
       }
+    case 'login':
+      const { nombre, username } = action.payload
+      return {
+        ...state,
+        validando: false,
+        token: 'abc123',
+        nombre,
+        username
+      }
     default:
       return state
   }
 }
 
 const Login = () => {
-  const [{ validando }, dispatch] = useReducer(authReducer, initialState)
+  const [{ validando, token, nombre }, dispatch] = useReducer(authReducer, initialState)
 
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: 'logout' })
     }, 1500)
   }, [])
+
+  const login = () => {
+    dispatch({ 
+      type: 'login', 
+      payload: {
+        nombre: 'Rubs',
+        username: 'Reynod'
+      } 
+    })
+  }
+
+  const logout = () => {
+    dispatch({ type: 'logout' })
+  }
 
   if(validando) {
     return (
@@ -53,12 +83,17 @@ const Login = () => {
     <>
       <h3>Login</h3>
 
-      <div className='alert alert-danger'>No autenticado</div>
+      {
+        ( token ) 
+          ? <div className='alert alert-success'>Autenticado como: { nombre }</div>
+          : <div className='alert alert-danger'>No autenticado</div>
+      }
 
-      <div className='alert alert-success'>Autenticado</div>
-
-      <button className='btn btn-primary'>Login</button>
-      <button className='btn btn-danger'>Logout</button>
+      {
+        ( token )
+          ? <button className='btn btn-danger' onClick={logout}>Logout</button>
+          : <button className='btn btn-primary' onClick={login}>Login</button>
+      }
     </>
   )
 }
