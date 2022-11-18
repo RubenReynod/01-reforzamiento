@@ -4,7 +4,8 @@ import { ReqResListado, Usuario } from '../interfaces/reqRes';
 
 export const useUsuarios = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([])
-  const paginaRef = useRef(0)
+  const paginaRef = useRef(1)
+  const totalPages = useRef(0)
   
   useEffect(() => {
     cargarUsuarios()
@@ -17,15 +18,25 @@ export const useUsuarios = () => {
       }
     })
     
-    if(resp.data.data.length > 0){
-      setUsuarios(resp.data.data)
-      paginaRef.current ++
-    } else {
-      alert('No hay mas registros')
-    }
+    setUsuarios(resp.data.data)
+    totalPages.current = resp.data.total_pages
   }
+
+  const paginaSiguiente = () => {
+    paginaRef.current++
+    cargarUsuarios()
+  }
+
+  const paginaAnterior = () => {    
+    paginaRef.current--
+    cargarUsuarios()
+  }
+  
   return {
     usuarios,
-    cargarUsuarios
+    totalPages: totalPages.current,
+    currentPage : paginaRef.current,
+    paginaSiguiente,
+    paginaAnterior
   }
 }
